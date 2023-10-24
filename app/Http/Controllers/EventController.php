@@ -54,13 +54,17 @@ class EventController extends Controller
         // Adjuntar los organizadores al evento
         $event->organizations()->attach($selectedOrganizers);
 
-        return redirect()->route('events.showEvents');
+        
+        if (!$event) {
+            return redirect()->route('events.showEvents')->with('error2', 'El evento no se creó.');
+        }else{
+            return redirect()->route('events.showEvents')->with('success', 'El evento se ha creado.');
+        }
     }
 
 
     public function showEvents()
     {
-        // Ordenados por fecha desc 
         $events = Event::orderBy('event_date', 'desc')->get();
         return view('events.showEvents', compact('events'));
     }
@@ -93,6 +97,7 @@ class EventController extends Controller
         return view('events.editField', compact('event', 'fieldName', 'fieldValue', 'availableOrganizers'));
     }
 
+
     public function addOrganizer(Request $request, $eventId)
     {
         // Buscar el evento por ID
@@ -100,11 +105,8 @@ class EventController extends Controller
 
         // Verificar si el evento se encontró en la base de datos
         if (!$event) {
-            // Manejar el caso en el que el evento no existe, por ejemplo, redirigir con un mensaje de error
             return redirect()->route('events.index')->with('error', 'El evento no se encontró.');
         }
-
-        // Continúa con el proceso de agregar organizador
 
         $organizerId = $request->input('organizerId');
 
@@ -114,13 +116,13 @@ class EventController extends Controller
         if ($organizer) {
             // Verifica si la organización ya está asociada al evento para evitar duplicados
             if (!$event->organizations->contains($organizer->id)) {
-                // Agrega el organizador al evento
                 $event->organizations()->attach($organizer->id);
+                return redirect()->route('events.editField', ['eventId' => $event->id, 'field' => '$fieldName'])->with('success', 'El organizador se ha agregado al evento.');
+            }else{
+                return redirect()->route('events.editField', ['eventId' => $event->id, 'field' => '$fieldName'])->with('error2', 'El organizador NO se ha agregado al evento.');
             }
         }
-
-        // Redirige de vuelta a la página de edición del campo
-        return redirect()->route('events.editField', ['eventId' => $event->id, 'field' => '$fieldName']);
+        
     }
 
     public function destroy($eventId)
@@ -142,26 +144,41 @@ class EventController extends Controller
     public function removeOrganizer($eventId, $organizerId)
     {
         $event = Event::find($eventId);
+        if ($event) {
+            // Elimina el organizador asociado al evento
+            $event->organizations()->detach($organizerId);
 
-        // Elimina el organizador asociado al evento
-        $event->organizations()->detach($organizerId);
-
-        return redirect()->route('events.showEventWithOrganizers', ['eventId' => $event->id]);
+            return redirect()->route('events.showEvents')->with('success', 'Organizador eliminado del evento');
+        } else {
+            // Si el evento no se encontró, redirigir a una página de error o a donde desees
+            return redirect()->route('events.index')->with('error', 'No se pudo encontrar el evento');
+        }
+        
     }
 
     public function updateField(Request $request, $eventId)
     {
         $event = Event::find($eventId);
 
-        // Obten el nombre del campo que se está actualizando
-        $field = $request->input('field');
-
-        // Actualiza el valor del campo con el nuevo valor del formulario
-        $event->{$field} = $request->input('value');
-
-
+        $event->title = $request->title;
+        $event->event_date = $request->event_date;
+        $event->start_time = $request->start_time;
+        // $event->end_time = $request->end_time;
+        $event->street = $request->street;
+        $event->zipcode = $request->zipcode;
+        $event->locality = $request->locality;
+        $event->country = $request->country;
+        $event->description = $request->description;
+        $event->category = $request->category;
+        $event->price = $request->price;
+        $event->max_capacity = $request->max_capacity;
         $event->save();
 
-        return redirect()->route('events.showEventWithOrganizers', ['eventId' => $event->id]);
+        if ($event) {
+            return redirect()->route('events.showEventWithOrganizers', ['eventId' => $event->id])->with('success', 'Evento modificado');
+        } else {
+        // Si el evento no se encontró, redirigir a una página de error o a donde desees
+        return redirect()->route('events.showEventWithOrganizers')->with('error', 'No se ha podido modificar el evento');
+    }
     }
 }

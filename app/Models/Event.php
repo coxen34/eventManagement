@@ -13,8 +13,5 @@ class Event extends Model
     {
         return $this->belongsToMany(Organization::class, 'event_organization');
     }
-    public static function getAllEvents()
-    {
-        return self::all();
-    }
+   
 }

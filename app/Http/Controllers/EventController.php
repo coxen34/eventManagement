@@ -62,12 +62,12 @@ class EventController extends Controller
         }
     }
 
-
     public function showEvents()
-    {
-        $events = Event::orderBy('event_date', 'desc')->get();
-        return view('events.showEvents', compact('events'));
-    }
+{
+    $events = Event::orderBy('event_date', 'desc')->paginate(10);
+    return view('events.showEvents', compact('events'));
+}
+
 
     public function showEventsCategory($category)
     {

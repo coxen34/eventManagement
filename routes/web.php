@@ -23,6 +23,8 @@ Route::group(['prefix' => 'events'], function () {
     Route::get('/', [EventController::class, 'index']);
     Route::get('create', [EventController::class, 'create']);
     Route::get('showEvents', [EventController::class, 'showEvents'])->name('events.showEvents');
+    Route::get('filter', [EventController::class, 'filter'])->name('events.filter');
+
     Route::get('category/{category}', [EventController::class, 'showEventsCategory'])->name('events.showEventsCategory');
     Route::get('showEventWithOrganizers/{eventId}', [EventController::class, 'showEventWithOrganizers'])->name('events.showEventWithOrganizers');
     Route::post('events', [EventController::class, 'store'])->name('events.store');

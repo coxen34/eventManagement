@@ -20,8 +20,9 @@ class eventFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->sentence(),
-            'event_date' => $this->faker->date,
+            'title' => $this->faker->sentence(5),
+            // 'event_date' => $this->faker->date('Y-m-d', 'now'), 
+            'event_date' => $this->faker->dateTimeBetween('2023-01-01', '2030-12-31')->format('Y-m-d'),
             'start_time' => $this->faker->time,
             // 'end_time' => $this->faker->time,
             'street' => $this->faker->streetAddress,
@@ -30,7 +31,7 @@ class eventFactory extends Factory
             'country' => $this->faker->country,
             'description' => $this->faker->paragraph,
             'category' => $this->faker->randomElement(['Art and Culture', 'Sports', 'Concerts', 'Gastronomy', 'Beauty-Fashion', 'Health-Wellness', 'Family-Friendly']),
-            'price' => $this->faker->randomFloat(2, 1, 999.99),
+            'price' => number_format($this->faker->randomFloat(2, 1, 999.99)), 
             'max_capacity' => $this->faker->numberBetween(1, 1000),
         ];
     }

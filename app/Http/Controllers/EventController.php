@@ -14,6 +14,13 @@ class EventController extends Controller
         $events = new Event();
         return view('events.index', compact('events'));
     }
+    public function showEventsCategory($category)
+    {
+        $events = Event::where('category', $category)->paginate(6);
+        
+        return view('events.showEventsCategory', compact('events', 'category'));
+    }
+        
     public function create()
     {
         // Obtener la lista de organizadores
@@ -64,18 +71,50 @@ class EventController extends Controller
 
     public function showEvents()
 {
-    $events = Event::orderBy('event_date', 'desc')->paginate(10);
-    return view('events.showEvents', compact('events'));
+    $events = Event::orderBy('id', 'desc')->paginate(4);
+    $organizations = Organization::all();
+   
+    return view('events.showEvents', compact('events', 'organizations'));
+    
+    
 }
 
+public function filter(Request $request)
+{
+    $order = $request->input('order', 'id');
+    $category = $request->input('category');
+    $direction = $request->input('direction', 'asc');
+    $organizer = $request->input('organizer');
 
-    public function showEventsCategory($category)
-    {
-        $events = Event::where('category', $category)->get();
-        return view('events.showEventsCategory', compact('events', 'category'));
+    // Consulta base de eventos
+    $query = Event::orderBy($order, $direction);
+
+    // Aplicar filtro de categoría si se selecciona
+    if (!empty($category)) {
+        $query->where('category', $category);
     }
 
-    public function showEventWithOrganizers($eventId)
+    
+
+    // Obtener los eventos paginados
+    $events = $query->paginate(3);
+    
+
+    // return view('events.showEvents', compact('events', 'organizations'));
+    $categoryTranslations = [
+        'Art and Culture' => 'Arte y Cultura',
+        'Sports' => 'Deportes',
+        'Concerts' => 'Conciertos',
+        'Gastronomy' => 'Gastronomía',
+        'Beauty-Fashion' => 'Belleza y Moda',
+        'Health-Wellness' => 'Salud y Bienestar',
+        'Family-Friendly' => 'Familiar',
+    ];
+    
+    return view('events.showEvents', compact('events', 'categoryTranslations'));
+}
+
+public function showEventWithOrganizers($eventId)
     {
         $event = Event::with('organizations')->find($eventId);
 

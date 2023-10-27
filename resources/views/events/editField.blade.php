@@ -3,6 +3,7 @@
 @section('title', 'Editar Campo del Evento')
 
 @section('content')
+
     <h1>Editar Campo del Evento</h1>
     @if (session('error'))
         <div>
@@ -71,3 +72,4 @@
     </ul>
 
     </div>
+    @endsection

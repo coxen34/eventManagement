@@ -18,7 +18,7 @@
             <div>
                 <h1 class="text-white text-lg font-semibold ml-4">EventManagement</h1>
             </div>
-            <div class="relative group">
+            <div>
                 <button
                     class="text-white group-hover:bg-blue-500 group-hover:bg-opacity-25 px-4 py-2 rounded focus:outline-none">
                     <i class="fa-solid fa-bars fa-2x"></i>

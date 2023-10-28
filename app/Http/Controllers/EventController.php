@@ -14,16 +14,16 @@ class EventController extends Controller
         $events = new Event();
         return view('events.index', compact('events'));
     }
+
     public function showEventsCategory($category)
     {
-        $events = Event::where('category', $category)->paginate(6);
-        
+        $events = Event::where('category', $category)->paginate(7);
+
         return view('events.showEventsCategory', compact('events', 'category'));
     }
-        
+
     public function create()
     {
-        // Obtener la lista de organizadores
         $organizations = Organization::all();
 
         return view('events.create', compact('organizations'));
@@ -61,65 +61,57 @@ class EventController extends Controller
         // Adjuntar los organizadores al evento
         $event->organizations()->attach($selectedOrganizers);
 
-        
+
         if (!$event) {
             return redirect()->route('events.showEvents')->with('error2', 'El evento no se creó.');
-        }else{
+        } else {
             return redirect()->route('events.showEvents')->with('success', 'El evento se ha creado.');
         }
     }
 
     public function showEvents()
-{
-    $events = Event::orderBy('id', 'desc')->paginate(4);
-    $organizations = Organization::all();
-   
-    return view('events.showEvents', compact('events', 'organizations'));
-    
-    
-}
+    {
+        $events = Event::orderBy('id', 'desc')->paginate(12);
+        $organizations = Organization::all();
 
-public function filter(Request $request)
-{
-    $order = $request->input('order', 'id');
-    $category = $request->input('category');
-    $direction = $request->input('direction', 'asc');
-    $organizer = $request->input('organizer');
-
-    // Consulta base de eventos
-    $query = Event::orderBy($order, $direction);
-
-    // Aplicar filtro de categoría si se selecciona
-    if (!empty($category)) {
-        $query->where('category', $category);
+        return view('events.showEvents', compact('events', 'organizations'));
     }
 
-    
+    public function filter(Request $request)
+    {
+        $order = $request->input('order', 'id');
+        $category = $request->input('category');
+        $direction = $request->input('direction', 'asc');
+        // $organizer = $request->input('organizer');
 
-    // Obtener los eventos paginados
-    $events = $query->paginate(3);
-    
+        $query = Event::orderBy($order, $direction);
+        // Aplicar filtro de categoría si se selecciona
+        if (!empty($category)) {
+            $query->where('category', $category);
+        }
+        // Obtener los eventos paginados
+        $events = $query->paginate(3);
 
-    // return view('events.showEvents', compact('events', 'organizations'));
-    $categoryTranslations = [
-        'Art and Culture' => 'Arte y Cultura',
-        'Sports' => 'Deportes',
-        'Concerts' => 'Conciertos',
-        'Gastronomy' => 'Gastronomía',
-        'Beauty-Fashion' => 'Belleza y Moda',
-        'Health-Wellness' => 'Salud y Bienestar',
-        'Family-Friendly' => 'Familiar',
-    ];
-    
-    return view('events.showEvents', compact('events', 'categoryTranslations'));
-}
+        $categoryTranslations = [
+            'Art and Culture' => 'Arte y Cultura',
+            'Sports' => 'Deportes',
+            'Concerts' => 'Conciertos',
+            'Gastronomy' => 'Gastronomía',
+            'Beauty-Fashion' => 'Belleza y Moda',
+            'Health-Wellness' => 'Salud y Bienestar',
+            'Family-Friendly' => 'Familiar',
+        ];
 
-public function showEventWithOrganizers($eventId)
+        return view('events.showEvents', compact('events', 'categoryTranslations'));
+    }
+
+    public function showEventWithOrganizers($eventId)
     {
         $event = Event::with('organizations')->find($eventId);
 
         return view('events.showEventWithOrganizers', compact('event'));
     }
+
     public function editField($eventId, $field)
     {
         $event = Event::find($eventId);
@@ -136,32 +128,27 @@ public function showEventWithOrganizers($eventId)
         return view('events.editField', compact('event', 'fieldName', 'fieldValue', 'availableOrganizers'));
     }
 
-
     public function addOrganizer(Request $request, $eventId)
     {
-        // Buscar el evento por ID
         $event = Event::find($eventId);
-
-        // Verificar si el evento se encontró en la base de datos
         if (!$event) {
             return redirect()->route('events.index')->with('error', 'El evento no se encontró.');
         }
 
         $organizerId = $request->input('organizerId');
 
-        // Buscar la organización en función del ID
+        // Buscar el org X el ID
         $organizer = Organization::find($organizerId);
 
         if ($organizer) {
-            // Verifica si la organización ya está asociada al evento para evitar duplicados
+            // Verifica si el org ya está asociado al evento para evitar duplicados
             if (!$event->organizations->contains($organizer->id)) {
                 $event->organizations()->attach($organizer->id);
                 return redirect()->route('events.editField', ['eventId' => $event->id, 'field' => '$fieldName'])->with('success', 'El organizador se ha agregado al evento.');
-            }else{
+            } else {
                 return redirect()->route('events.editField', ['eventId' => $event->id, 'field' => '$fieldName'])->with('error2', 'El organizador NO se ha agregado al evento.');
             }
         }
-        
     }
 
     public function destroy($eventId)
@@ -169,13 +156,9 @@ public function showEventWithOrganizers($eventId)
         $event = Event::find($eventId);
 
         if ($event) {
-            // Eliminar el evento
             $event->delete();
-
-            // Redirigir a una página de confirmación o a donde desees
             return redirect()->route('events.showEvents')->with('success', 'Evento eliminado correctamente');
         } else {
-            // Si el evento no se encontró, redirigir a una página de error o a donde desees
             return redirect()->route('events.index')->with('error', 'No se pudo encontrar el evento');
         }
     }
@@ -184,32 +167,31 @@ public function showEventWithOrganizers($eventId)
     {
         $event = Event::find($eventId);
         if ($event) {
-            // Elimina el organizador asociado al evento
+
             $event->organizations()->detach($organizerId);
 
             return redirect()->route('events.showEvents')->with('success', 'Organizador eliminado del evento');
         } else {
-            // Si el evento no se encontró, redirigir a una página de error o a donde desees
+
             return redirect()->route('events.index')->with('error', 'No se pudo encontrar el evento');
         }
-        
     }
-    public function removeOrganizer(Request $request, $eventId) {
+
+    public function removeOrganizer(Request $request, $eventId)
+    {
         $event = Event::find($eventId);
         $selectedOrganizers = $request->input('selectedOrganizers');
-    
+
         foreach ($selectedOrganizers as $organizerId) {
-            if($event) {
-            $event->organizations()->detach($organizerId);
-            return redirect()->route('events.showEvents')->with('success', 'Organizadores modificado');
-        } else {
-            // Si el evento no se encontró, redirigir a una página de error o a donde desees
-            return redirect()->route('events.index')->with('error', 'No se pudo encontrar el evento');
-        }
+            if ($event) {
+                $event->organizations()->detach($organizerId);
+                return redirect()->route('events.showEvents')->with('success', 'Organizadores modificado');
+            } else {
+
+                return redirect()->route('events.index')->with('error', 'No se pudo encontrar el evento');
+            }
         }
     }
-    
-    
 
     public function updateField(Request $request, $eventId)
     {
@@ -232,8 +214,7 @@ public function showEventWithOrganizers($eventId)
         if ($event) {
             return redirect()->route('events.showEventWithOrganizers', ['eventId' => $event->id])->with('success', 'Evento modificado');
         } else {
-        // Si el evento no se encontró, redirigir a una página de error o a donde desees
-        return redirect()->route('events.showEventWithOrganizers')->with('error', 'No se ha podido modificar el evento');
-    }
+            return redirect()->route('events.showEventWithOrganizers')->with('error', 'No se ha podido modificar el evento');
+        }
     }
 }

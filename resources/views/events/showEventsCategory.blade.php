@@ -5,8 +5,7 @@
 @section('content')
     <h1 class="text-4xl font-bold text-center mt-10 mb-10">Eventos de la categoría: {{ $category }}</h1>
 
-    {{-- <table class="bg-white mx-auto max-w-6xl" style="margin-top: 15%;"> --}}
-        <table class="mx-auto " style="margin-top: 15%; width:55%">
+        <table class="mx-auto rounded" style="margin-top: 15%; width:60%;background-color: rgba(251, 251, 239, 0.3)";>
 
         <thead>
             <tr>
@@ -22,11 +21,11 @@
             @foreach ($events as $event)
                 <tr>
                     <td >{{ $event->title }}</td>
-                    <td class="mr-4">{{ date('d-m-Y', strtotime($event->event_date)) }}</td>
+                    <td class="mr-4 ">{{ date('d-m-Y', strtotime($event->event_date)) }}</td>
                     <td>&nbsp;&nbsp;</td>
                     <td class="mr-4">{{ number_format($event->price, 2) }} €</td>
                     <td>&nbsp;&nbsp;</td>
-                    <td class="mr-4">{{ $event->locality }}</td>
+                    <td >{{ $event->locality }}</td>
                 </tr>
             @endforeach
         </tbody>
@@ -45,7 +44,9 @@
             Botón 2
         </button>
     </div>
+    <div class="mt-14 mr-5 ml-5">
+        {{ $events->links() }}
+    </div>
     
-    {{ $events->links() }}
 @endsection
 

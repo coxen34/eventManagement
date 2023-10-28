@@ -6,13 +6,13 @@
 
 <div class="overflow-hidden">
     <div class="flex items-center justify-center h-screen my-4">
-        <button class=" hover:bg-blue-700 text-white font-bold py-6 px-16 rounded mr-4"style="background-color:#708356">
+        <button class="bg-lime-700 text-white font-bold py-6 px-16 rounded hover:bg-lime-600">
             Botón 1
         </button>
         <button class="bg-transparent text-transparent py-6 rounded mr-4"style="width:60px;">
             Botón transparente
         </button>
-        <button class=" hover:bg-green-700 text-white font-bold py-6 px-16 rounded"style="background-color:#708356">
+        <button class="bg-lime-700 text-white font-bold py-6 px-16 rounded hover:bg-lime-600">
             Botón 2
         </button>
     </div>

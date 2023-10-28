@@ -4,8 +4,8 @@
 
 @section('content')
     <section class="max-w-screen-xl mx-auto p-4">
-        <div style="background-color: rgba(251, 251, 239, 0.3);">
-            <h1>Editar Campo del Evento</h1>
+        <div style="background-color: rgba(251, 251, 239, 0.3);border-radius: 3%;">
+            <h1 class="font-bold text-lg bg-white">Editar Campo del Evento</h1>
             @if (session('error'))
                 <div>
                     {{ session('error') }}
@@ -122,7 +122,7 @@
         @endforeach
 
         <form method="post" id="removeOrganizerForm" action=""
-            class="space-y-4"style="background-color: rgba(252, 237, 234, 0.6);">
+            class="space-y-4"style="background-color: rgba(252, 237, 234, 0.6);border-radius: 3%;">
             @csrf
 
             <h2 class="text-lg font-semibold mt-8">Organizadores del evento:</h2>

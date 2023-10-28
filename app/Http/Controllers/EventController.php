@@ -180,7 +180,7 @@ public function showEventWithOrganizers($eventId)
         }
     }
 
-    public function removeOrganizer($eventId, $organizerId)
+    public function removeOrganizerOLD($eventId, $organizerId)
     {
         $event = Event::find($eventId);
         if ($event) {
@@ -194,6 +194,22 @@ public function showEventWithOrganizers($eventId)
         }
         
     }
+    public function removeOrganizer(Request $request, $eventId) {
+        $event = Event::find($eventId);
+        $selectedOrganizers = $request->input('selectedOrganizers');
+    
+        foreach ($selectedOrganizers as $organizerId) {
+            if($event) {
+            $event->organizations()->detach($organizerId);
+            return redirect()->route('events.showEvents')->with('success', 'Organizadores modificado');
+        } else {
+            // Si el evento no se encontró, redirigir a una página de error o a donde desees
+            return redirect()->route('events.index')->with('error', 'No se pudo encontrar el evento');
+        }
+        }
+    }
+    
+    
 
     public function updateField(Request $request, $eventId)
     {

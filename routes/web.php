@@ -29,7 +29,10 @@ Route::group(['prefix' => 'events'], function () {
     Route::get('showEventWithOrganizers/{eventId}', [EventController::class, 'showEventWithOrganizers'])->name('events.showEventWithOrganizers');
     Route::post('events', [EventController::class, 'store'])->name('events.store');
     Route::get('editField/{eventId}/{field}', [EventController::class, 'editField'])->name('events.editField');
-    Route::get('remove-organizer/{eventId}/{organizerId}', [EventController::class, 'removeOrganizer'])->name('events.removeOrganizer');
+
+    Route::post('remove-organizer/{eventId}/{organizerId}', [EventController::class, 'removeOrganizer'])->name('events.removeOrganizer');
+    
+
     Route::put('updateField/{eventId}', [EventController::class, 'updateField'])->name('events.updateField');
     Route::delete('destroy/{eventId}', [EventController::class, 'destroy'])->name('events.destroy');
     Route::post('events/addOrganizer/{eventId}', 'App\Http\Controllers\EventController@addOrganizer')->name('events.addOrganizer');

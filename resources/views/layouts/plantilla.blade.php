@@ -7,8 +7,46 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/35a2d9730b.js" crossorigin="anonymous"></script>
     <link rel="icon" href={{ asset('img/silueta.png') }} sizes="128x128" type="image/png">
+    <style>
+        #menu {
+            display: none;
+        }
 
+        #menuToggle:hover+#menu,
+        #menu:hover {
+            display: block;
+        }
+
+        /* Aún lista vacía */
+        #menu:hover {
+            display: block;
+        }
+
+        @media (max-width: 700px) {
+            .space-y-4.max-height-400px-overflow-auto {
+                max-height: 100px;
+                overflow: auto;
+            }
+
+            body {
+                background-color: red;
+            }
+        }
+
+        /* @media (min-width: 768px) and (max-width: 1023px){ */
+        @media (min-width: 768px) {
+            .space-y-4.max-height-400px-overflow-auto {
+                max-height: 750px;
+                overflow: auto;
+            }
+            body {
+                background-color: green;
+            }
+        }
+        
+    </style>
     <title>@yield('title')</title>
+
 
 </head>
 
@@ -18,19 +56,21 @@
             <div>
                 <h1 class="text-white text-lg font-semibold ml-4">EventManagement</h1>
             </div>
-            <div>
+            <div class="relative group">
                 <button
-                    class="text-white group-hover:bg-blue-500 group-hover:bg-opacity-25 px-4 py-2 rounded focus:outline-none">
+                    class="text-white group-hover:bg-blue-500 group-hover:bg-opacity-25 px-4 py-2 rounded focus:outline-none"
+                    id="menuToggle">
                     <i class="fa-solid fa-bars fa-2x"></i>
                 </button>
-                <ul
-                    class="hidden absolute right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg text-gray-800 group-hover:block">
+                <ul class="absolute right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg text-gray-800"
+                    id="menu">
                     <li class="py-2 px-4 hover:bg-gray-200">Opción 1</li>
                     <li class="py-2 px-4 hover:bg-gray-200">Opción 2</li>
                     <li class="py-2 px-4 hover:bg-gray-200">Opción 3</li>
                 </ul>
             </div>
         </div>
+
     </header>
 
     <main

@@ -83,12 +83,13 @@
                     </select>
 
                 </div>
-                <div class="mb-4 grid grid-cols-2 gap-4">
-                    <label class="font-bold mb-2">Organizadores:</label>
+                <label class="font-bold mb-2">Organizadores:</label>
+                <div class="mb-4 grid grid-cols-2 gap-4"style="max-height: 200px; overflow-y: auto;">
+
                     @foreach ($organizations as $organizer)
                         <div class="flex items-center">
                             <input type="checkbox" name="organizations[]" value="{{ $organizer->id }}"
-                                class="w-4 h-4 border rounded-md">
+                                class="w-4 h-4 border rounded-md"required>
                             <label class="ml-2"class="font-bold mb-2">{{ $organizer->name }}</label>
                         </div>
                     @endforeach
@@ -109,9 +110,25 @@
 
                 <button type="submit"class="text-white font-bold py-2 px-4 rounded-md"
                     style="background-color:#708356">Crear Evento</button>
+
             </fieldset>
         </form>
+        <div class="flex justify-end ">
+            <form method="GET" action="/">
+                @csrf
+                <button type="submit"
+                    class="bg-lime-700 text-white font-bold py-2 px-16 mr-6 rounded hover:bg-lime-600 "style="width: 200px;">Volver
+                    a Inicio</button>
+            </form>
+        </div>
+        
     </div>
 
 
+
 @endsection
+{{-- <script>
+    function goBack() {
+        window.history.back();
+    }
+</script> --}}

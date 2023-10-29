@@ -33,7 +33,7 @@
                 <div class="mb-4 flex">
                     <div class="w-1/2 pr-2">
                         <label for="zipcode"class="font-bold mb-2">C.P</label>
-                        <input type="number" name="zipcode" class="w-full border rounded-md py-2 px-3">
+                        <input type="number" name="zipcode" class="w-full border rounded-md py-2 px-3" required min="0">
                     </div>
 
                     <div class="w-1/2 pl-2">
@@ -71,6 +71,18 @@
 
             </fieldset>
         </form>
-
+        <br><br>
+        <div class="flex justify-end mb-8">
+            <button onclick="goBack()"
+            class="bg-lime-700 text-white font-bold py-6 px-16 rounded hover:bg-lime-600">Volver atrás</button>
+        </div>
+        
 
     @endsection
+
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>

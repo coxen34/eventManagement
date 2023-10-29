@@ -27,14 +27,13 @@
                     </div>
                     <div>
                         <label for="locality"class="block text-sm font-semibold">Localidad</label>
-                        <input type="text" name="locality"
-                            value="{{ $org->locality }}"class="w-full p-2 border rounded">
+                        <input type="text" name="locality" value="{{ $org->locality }}"class="w-full p-2 border rounded">
                     </div>
                     <div>
                         <label for="zipcode"class="block text-sm font-semibold">C.P.</label>
                         <input type="text" name="zipcode" value="{{ $org->zipcode }}"class="w-full p-2 border rounded">
                     </div>
-                    
+
                     <div>
                         <label for="province"class="block text-sm font-semibold">Provincia</label>
                         <input type="text" name="province" value="{{ $org->province }}"class="w-full p-2 border rounded">
@@ -60,7 +59,15 @@
                     type="submit"class="bg-lime-700 text-white font-semibold py-2 px-4 rounded hover:bg-lime-600">Guardar
                     cambios</button>
             </form>
-
+        </div>
+        
+        <div class="flex justify-end ">
+            <form method="GET" action="/">
+                @csrf
+                <button type="submit"
+                    class="bg-lime-700 text-white font-bold py-2 px-16 mr-6 rounded hover:bg-lime-600  ">Volver
+                    a Inicio</button>
+            </form>
         </div>
 
 
@@ -71,5 +78,6 @@
                 </div>
             @endif
         @endforeach
+
     </section>
 @endsection

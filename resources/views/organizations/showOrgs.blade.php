@@ -12,7 +12,7 @@
 
     <br>
     @if (session('success'))
-        <div>
+        <div class="bg-red-500">
             {{ session('success') }}
         </div>
     @endif
@@ -49,6 +49,15 @@
             </ul>
         @endforeach
     </div>
+    <div class="flex justify-end mb-8">
+        <form method="GET" action="/">
+            @csrf
+            <button type="submit"
+                class="bg-lime-700 text-white font-bold py-6 px-16 mr-6 rounded hover:bg-lime-600"style="width: 200px;">Volver
+                a Inicio</button>
+        </form>
+    </div>
+
 @endsection
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -63,4 +72,6 @@
             });
         });
     });
+
+    
 </script>

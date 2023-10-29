@@ -85,6 +85,14 @@
     <div class="ml-5 mr-5 ">
         {{ $events->links() }}
     </div>
+    <div class="flex justify-center ">
+        <form method="GET" action="/">
+            @csrf
+            <button type="submit"
+                class="bg-lime-700 text-white font-bold py-2 px-16 mr-6 rounded hover:bg-lime-600 "style="width: 200px;">Volver
+                a Inicio</button>
+        </form>
+    </div>
 @endsection
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -98,5 +106,9 @@
                 }
             });
         });
-    });
+    }); 
+    
 </script>
+
+
+

@@ -13,6 +13,7 @@ class Organization extends Model
     public function events()
 {
     return $this->belongsToMany('App\Models\Event');
+  
 }
 
 

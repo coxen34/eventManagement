@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\OrganizationController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,4 +38,13 @@ Route::group(['prefix' => 'events'], function () {
     Route::put('updateField/{eventId}', [EventController::class, 'updateField'])->name('events.updateField');
     Route::delete('destroy/{eventId}', [EventController::class, 'destroy'])->name('events.destroy');
     Route::post('events/addOrganizer/{eventId}', 'App\Http\Controllers\EventController@addOrganizer')->name('events.addOrganizer');
+});
+Route::group(['prefix' => 'organizations'], function () {
+    Route::get('/', [OrganizationController::class, 'create']);
+    Route::post('/', [OrganizationController::class, 'store'])->name('organizations.store');
+    Route::get('showOrgs', [OrganizationController::class, 'showOrgs'])->name('organizations.showOrgs');
+    Route::get('editField/{orgId}/{field}', [OrganizationController::class, 'editField'])->name('organizations.editField');
+    Route::put('updateField/{orgId}', [OrganizationController::class, 'updateField'])->name('organizations.updateField');
+    Route::delete('destroy/{orgId}', [OrganizationController::class, 'destroy'])->name('organizations.destroy');
+    
 });

@@ -22,21 +22,10 @@
             display: block;
         }
 
-        @media (max-width: 700px) {
-            .space-y-4.max-height-400px-overflow-auto {
-                max-height: 100px;
-                overflow: auto;
-            }
-
-            body {
-                background-color: red;
-            }
-        }
-
         /* @media (min-width: 768px) and (max-width: 1023px){ */
         @media (min-width: 768px) {
             .space-y-4.max-height-400px-overflow-auto {
-                max-height: 750px;
+                max-height: 700px;
                 overflow: auto;
             }
             body {

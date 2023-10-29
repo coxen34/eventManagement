@@ -90,7 +90,7 @@ class EventController extends Controller
             $query->where('category', $category);
         }
         // Obtener los eventos paginados
-        $events = $query->paginate(3);
+        $events = $query->paginate(12);
 
         $categoryTranslations = [
             'Art and Culture' => 'Arte y Cultura',

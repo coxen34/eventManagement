@@ -42,11 +42,11 @@
         
         
         
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">Aplicar
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold  rounded-md ">Aplicar
                     Filtros</button>
             </form>
         </div>
-        <hr>
+        
     
     <div class="space-y-4 max-height-400px-overflow-auto">
         @foreach ($events->chunk(4) as $eventRow)

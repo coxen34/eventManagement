@@ -117,7 +117,7 @@
             <form method="GET" action="/">
                 @csrf
                 <button type="submit"
-                    class="bg-lime-700 text-white font-bold py-2 px-16 mr-6 rounded hover:bg-lime-600 "style="width: 200px;">Volver
+                    class="bg-lime-700 text-white font-bold py-2 px-16 mr-6 rounded hover:bg-lime-600 ">Volver
                     a Inicio</button>
             </form>
         </div>

@@ -89,7 +89,7 @@
                     @foreach ($organizations as $organizer)
                         <div class="flex items-center">
                             <input type="checkbox" name="organizations[]" value="{{ $organizer->id }}"
-                                class="w-4 h-4 border rounded-md"required>
+                                class="w-4 h-4 border rounded-md">
                             <label class="ml-2"class="font-bold mb-2">{{ $organizer->name }}</label>
                         </div>
                     @endforeach

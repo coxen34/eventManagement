@@ -28,11 +28,25 @@ class EventController extends Controller
 
         return view('events.create', compact('organizations'));
     }
-
     public function store(Request $request)
     {
-        $event = new Event();
+        // Validar los datos del formulario antes de continuar
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'event_date' => 'required|date',
+            'start_time' => 'required|date_format:H:i',
+            'street' => 'required|string|max:255',
+            'zipcode' => 'required|string|max:10',
+            'locality' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
+            'description' => 'required|string',
+            'category' => 'required|string',
+            'price' => 'required|numeric',
+            'max_capacity' => 'required|integer',
+            'organizations' => 'nullable|array',
+        ]);
 
+        $event = new Event();
 
         $event->title = $request->title;
         $event->event_date = $request->event_date;
@@ -47,12 +61,6 @@ class EventController extends Controller
         $event->price = $request->price;
         $event->max_capacity = $request->max_capacity;
 
-        //Valido fecha
-        /* $request->validate([
-        'start_time' => 'required|date_format:H:i',
-        'end_time' => 'required|date_format:H:i|after:start_time',
-    ]); */
-
         $event->save();
 
         // Obtener los organizadores seleccionados del formulario
@@ -61,13 +69,15 @@ class EventController extends Controller
         // Adjuntar los organizadores al evento
         $event->organizations()->attach($selectedOrganizers);
 
-
         if (!$event) {
             return redirect()->route('events.showEvents')->with('error2', 'El evento no se creó.');
         } else {
             return redirect()->route('events.showEvents')->with('success', 'El evento se ha creado.');
         }
     }
+
+
+
 
     public function showEvents()
     {
@@ -127,21 +137,26 @@ class EventController extends Controller
 
         return view('events.editField', compact('event', 'fieldName', 'fieldValue', 'availableOrganizers'));
     }
-
     public function addOrganizer(Request $request, $eventId)
     {
         $event = Event::find($eventId);
+
         if (!$event) {
             return redirect()->route('events.index')->with('error', 'El evento no se encontró.');
         }
 
         $organizerId = $request->input('organizerId');
 
-        // Buscar el org X el ID
+
+        $request->validate([
+            'organizerId' => 'required|integer|exists:organizations,id',
+        ]);
+
+
         $organizer = Organization::find($organizerId);
 
         if ($organizer) {
-            // Verifica si el org ya está asociado al evento para evitar duplicados
+            // Verificar si el organizador ya está asociado al evento para evitar duplicados
             if (!$event->organizations->contains($organizer->id)) {
                 $event->organizations()->attach($organizer->id);
                 return redirect()->route('events.editField', ['eventId' => $event->id, 'field' => '$fieldName'])->with('success', 'El organizador se ha agregado al evento.');
@@ -177,6 +192,7 @@ class EventController extends Controller
         }
     }
 
+    
     public function removeOrganizer(Request $request, $eventId)
     {
         $event = Event::find($eventId);
@@ -196,6 +212,20 @@ class EventController extends Controller
     public function updateField(Request $request, $eventId)
     {
         $event = Event::find($eventId);
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'event_date' => 'required|date',
+            'start_time' => 'required|date_format:H:i',
+            'street' => 'required|string|max:255',
+            'zipcode' => 'required|string|max:10',
+            'locality' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
+            'description' => 'required|string',
+            'category' => 'required|string',
+            'price' => 'required|numeric',
+            'max_capacity' => 'required|integer',
+        ]);
 
         $event->title = $request->title;
         $event->event_date = $request->event_date;

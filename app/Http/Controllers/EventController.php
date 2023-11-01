@@ -208,8 +208,32 @@ class EventController extends Controller
             }
         }
     }
-
     public function updateField(Request $request, $eventId)
+    {
+        $event = Event::find($eventId);
+
+        $event->title = $request->title;
+        $event->event_date = $request->event_date;
+        $event->start_time = $request->start_time;
+        // $event->end_time = $request->end_time;
+        $event->street = $request->street;
+        $event->zipcode = $request->zipcode;
+        $event->locality = $request->locality;
+        $event->country = $request->country;
+        $event->description = $request->description;
+        $event->category = $request->category;
+        $event->price = $request->price;
+        $event->max_capacity = $request->max_capacity;
+        $event->save();
+
+        if ($event) {
+            return redirect()->route('events.showEventWithOrganizers', ['eventId' => $event->id])->with('success', 'Evento modificado');
+        } else {
+            return redirect()->route('events.showEventWithOrganizers')->with('error', 'No se ha podido modificar el evento');
+        }
+    }
+
+    public function updateFieldXfix(Request $request, $eventId)
     {
         $event = Event::find($eventId);
 

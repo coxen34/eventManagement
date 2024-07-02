@@ -43,10 +43,7 @@
                         <input type="time" name="start_time" class="w-full border rounded-md py-2 px-3" required>
                     </div>
                 </div>
-                {{-- <div>
-                <label for="end_time">Hora de Finalización:</label>
-                <input type="time" name="end_time"  required>
-            </div> --}}
+                
                 <div class="mb-4 flex">
                     <div class="w-1/4 pr-2">
                         <label for="street"class="font-bold mb-2">Calle:</label>

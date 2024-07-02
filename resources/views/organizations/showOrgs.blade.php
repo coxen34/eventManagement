@@ -67,7 +67,7 @@
             button.addEventListener('click', function(e) {
                 if (!confirm('¿Estás seguro de que deseas eliminar este organizador?')) {
                     e
-                        .preventDefault(); // Cancela la acción de eliminación si el usuario cancela la confirmación.
+                        .preventDefault(); 
                 }
             });
         });

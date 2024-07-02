@@ -17,12 +17,10 @@
             display: block;
         }
 
-        /* Aún lista vacía */
         #menu:hover {
             display: block;
         }
 
-        /* @media (min-width: 768px) and (max-width: 1023px){ */
         @media (min-width: 768px) {
             .space-y-4.max-height-400px-overflow-auto {
                 max-height: 700px;

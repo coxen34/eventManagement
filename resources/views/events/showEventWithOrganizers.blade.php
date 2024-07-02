@@ -21,10 +21,6 @@
                     {{ $event->start_time }}
 
                 </li>
-                {{-- <li>
-                <strong>Hora de finalización:</strong>
-                {{ $event->end_time }}
-                </li> --}}
                 <li>
                     <strong>Calle:</strong>
                     {{ $event->street }}

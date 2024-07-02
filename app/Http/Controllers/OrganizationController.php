@@ -103,7 +103,7 @@ class OrganizationController extends Controller
             'locality' => 'required|string|max:255',
             'province' => 'required|string|max:255',
             'country' => 'required|string|max:255',
-            'phone' => 'required|string|max:20', // Ajusta la longitud según tus necesidades
+            'phone' => 'required|string|max:20', 
             'email' => 'required|email',
         ]);
 

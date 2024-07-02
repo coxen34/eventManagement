@@ -30,7 +30,7 @@ class EventController extends Controller
     }
     public function store(Request $request)
     {
-        // Validar los datos del formulario antes de continuar
+        
         $request->validate([
             'title' => 'required|string|max:255',
             'event_date' => 'required|date',
@@ -63,10 +63,10 @@ class EventController extends Controller
 
         $event->save();
 
-        // Obtener los organizadores seleccionados del formulario
+        
         $selectedOrganizers = $request->input('organizations', []);
 
-        // Adjuntar los organizadores al evento
+        
         $event->organizations()->attach($selectedOrganizers);
 
         if (!$event) {
@@ -92,14 +92,14 @@ class EventController extends Controller
         $order = $request->input('order', 'id');
         $category = $request->input('category');
         $direction = $request->input('direction', 'asc');
-        // $organizer = $request->input('organizer');
+        
 
         $query = Event::orderBy($order, $direction);
-        // Aplicar filtro de categoría si se selecciona
+        
         if (!empty($category)) {
             $query->where('category', $category);
         }
-        // Obtener los eventos paginados
+       
         $events = $query->paginate(12);
 
         $categoryTranslations = [
@@ -126,11 +126,11 @@ class EventController extends Controller
     {
         $event = Event::find($eventId);
 
-        // Determina el nombre del campo y su valor actual
+        
         $fieldName = $field;
         $fieldValue = $event->{$field};
 
-        // Obtiene la lista de organizadores disponibles
+        
         $availableOrganizers = Organization::all(['id', 'name']);
 
 
@@ -156,7 +156,7 @@ class EventController extends Controller
         $organizer = Organization::find($organizerId);
 
         if ($organizer) {
-            // Verificar si el organizador ya está asociado al evento para evitar duplicados
+            
             if (!$event->organizations->contains($organizer->id)) {
                 $event->organizations()->attach($organizer->id);
                 return redirect()->route('events.editField', ['eventId' => $event->id, 'field' => '$fieldName'])->with('success', 'El organizador se ha agregado al evento.');
@@ -215,7 +215,6 @@ class EventController extends Controller
         $event->title = $request->title;
         $event->event_date = $request->event_date;
         $event->start_time = $request->start_time;
-        // $event->end_time = $request->end_time;
         $event->street = $request->street;
         $event->zipcode = $request->zipcode;
         $event->locality = $request->locality;
@@ -254,7 +253,6 @@ class EventController extends Controller
         $event->title = $request->title;
         $event->event_date = $request->event_date;
         $event->start_time = $request->start_time;
-        // $event->end_time = $request->end_time;
         $event->street = $request->street;
         $event->zipcode = $request->zipcode;
         $event->locality = $request->locality;
